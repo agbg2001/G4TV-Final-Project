@@ -13,6 +13,7 @@ public class PlayerMovement : MonoBehaviour
 
     public float h;
     
+    public string[] levels;
     public bool alive = true;
     public bool endOfLevel = false;
     public float deadTime;
@@ -29,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
         //inital spawn position
         respawnPoint = Character.transform.position;
-        
+        levels = new string [] {"Level 1", "Level 2", "Level 3", "Level 4"};
     }
 
     // Update is called once per frame
@@ -48,22 +49,35 @@ public class PlayerMovement : MonoBehaviour
 
         // jumping
         if(Input.GetKeyDown(KeyCode.Space) && !inAir && canControl){
-            Debug.Log("trying to jump"); 
+            //Debug.Log("trying to jump"); 
             
             Character.velocity = new Vector2(0f, jumpForce) * Speed;
             
         }
 
-        if (!alive && Input.anyKey && Time.unscaledTime >= deadTime + deadLength){
+        if (!alive && Time.unscaledTime >= deadTime + deadLength){
 
             if(endOfLevel == true){ //on end of level
-                //change levels (use an array?)
-                if(SceneManager.GetActiveScene().name == "Level 1"){
-                    SceneManager.LoadScene("SwapTest");
-                }else SceneManager.LoadScene("Level 1");
 
                 endOfLevel = false;
                 Time.timeScale = 1.0f;
+
+                //change levels (use an array?)
+                for (int i = 0; i < levels.Length; i ++){
+                    Debug.Log(i);
+                    if(SceneManager.GetActiveScene().name == levels[i]){
+
+                        Debug.Log("level checked"); 
+                        
+                        if (i + 1 == levels.Length){ //currently, if you beat all the levels, it resets to level 1
+                            SceneManager.LoadScene(levels[0]);
+                        }
+                        else { 
+                            SceneManager.LoadScene(levels[i + 1]); 
+                        }
+                        
+                    }
+                }
             }
 
             else { //on death
@@ -81,7 +95,7 @@ public class PlayerMovement : MonoBehaviour
 
         if (hit.collider != null) {
             inAir = false;
-            Debug.Log(hit.collider); 
+            //Debug.Log(hit.collider); 
         } else { 
             inAir = true;
         }

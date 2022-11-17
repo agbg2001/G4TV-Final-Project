@@ -5,11 +5,13 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D Character;
+    public Rigidbody2D Character;
     public float Speed = 0.5f;
     public bool canControl;
     public float jumpForce = 0.5f;
     private bool inAir = false;
+
+    public float h;
     
     public bool alive = true;
     public bool endOfLevel = false;
@@ -38,7 +40,7 @@ public class PlayerMovement : MonoBehaviour
         //left right movement
          if(canControl == true)
         {
-            float h = Input.GetAxisRaw("Horizontal") * Speed;
+            h = Input.GetAxisRaw("Horizontal") * Speed;
 
             Character.transform.position += new Vector3(h, 0, 0) * Time.deltaTime;
         }

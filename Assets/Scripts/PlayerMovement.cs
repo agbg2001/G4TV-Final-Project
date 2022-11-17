@@ -89,21 +89,28 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-
-        Time.timeScale = 0.0f;
-        deadTime = Time.unscaledTime;
-
-        //end of level
+        //death
         if (col.gameObject.tag == "deathPlane") {
+            Time.timeScale = 0.0f;
+            deadTime = Time.unscaledTime;
             alive = false;
         }
+
+        //end of level
         if (col.gameObject.tag == "Finish"){
+            Time.timeScale = 0.0f;
+            deadTime = Time.unscaledTime;
+
             endOfLevel = true;
             canControl = false;
             alive = false;
 
             Debug.Log("this is the end"); 
         }
+
+         if(col.gameObject.tag == "checkpoint"){
+            respawnPoint = Character.transform.position;
+         }
     }
 
     void ResetScene()

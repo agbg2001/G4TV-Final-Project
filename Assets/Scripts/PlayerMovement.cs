@@ -26,6 +26,7 @@ public class PlayerMovement : MonoBehaviour
         canControl = true;
         Character = GetComponent<Rigidbody2D>();
         Character.constraints = RigidbodyConstraints2D.FreezeRotation;
+
         //inital spawn position
         respawnPoint = Character.transform.position;
         
@@ -38,7 +39,7 @@ public class PlayerMovement : MonoBehaviour
             canControl = true;
         }
         //left right movement
-         if(canControl == true)
+         if(canControl)
         {
             h = Input.GetAxisRaw("Horizontal") * Speed;
 
@@ -46,25 +47,26 @@ public class PlayerMovement : MonoBehaviour
         }
 
         // jumping
-        if(Input.GetKeyDown(KeyCode.Space) && !inAir){
+        if(Input.GetKeyDown(KeyCode.Space) && !inAir && canControl){
             Debug.Log("trying to jump"); 
             
             Character.velocity = new Vector2(0f, jumpForce) * Speed;
             
         }
 
-        if (!alive && Input.anyKey){
+        if (!alive && Input.anyKey && Time.unscaledTime >= deadTime + deadLength){
 
-            if(endOfLevel == true){
+            if(endOfLevel == true){ //on end of level
                 //change levels (use an array?)
                 if(SceneManager.GetActiveScene().name == "Level 1"){
-                    SceneManager.LoadScene("Level 2");
+                    SceneManager.LoadScene("SwapTest");
                 }else SceneManager.LoadScene("Level 1");
 
                 endOfLevel = false;
+                Time.timeScale = 1.0f;
             }
 
-            if(Time.unscaledTime >= deadTime + deadLength){
+            else { //on death
                 ResetScene();
             }
         }
@@ -87,29 +89,26 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
+
+        Time.timeScale = 0.0f;
+        deadTime = Time.unscaledTime;
+
         //end of level
         if (col.gameObject.tag == "deathPlane") {
-            Time.timeScale = 0.0f;
-            deadTime = Time.unscaledTime;
-
             alive = false;
         }
-        // else{
-        //     score ++;
-        //     Debug.Log("Score is " + score);
+        if (col.gameObject.tag == "Finish"){
+            endOfLevel = true;
+            canControl = false;
+            alive = false;
 
-        //     scoreText.text = "Score: " + score;
-
-        //     GetComponent<AudioSource>().Play();
-        // }
+            Debug.Log("this is the end"); 
+        }
     }
 
     void ResetScene()
     {
-        // change player colour
-        //GetComponent<SpriteRenderer>().color = Color.white;
-
-        // Reset to right position
+        // Reset to respawn position
         transform.position = respawnPoint;
 
         // Help flag, indicates the normal play mode

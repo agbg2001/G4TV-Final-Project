@@ -21,7 +21,11 @@ public class PlayerAnimation : MonoBehaviour
     void Update()
     {
         //change sprite colour based on active colour
-        if (playerSwap.isRedActive) {
+        //purple if end of level
+        if (playerMovement.endOfLevel) {
+            spriteRenderer.color = new Color(1, 0, 1, 1); 
+        }
+        else if (playerSwap.isRedActive) {
             spriteRenderer.color = new Color(1, 0, 0, 1);   //turns sprite red
         }
         else {

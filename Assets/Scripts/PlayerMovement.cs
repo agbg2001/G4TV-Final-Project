@@ -6,6 +6,7 @@ using UnityEngine.SceneManagement;
 public class PlayerMovement : MonoBehaviour
 {
     public Rigidbody2D Character;
+    private BoxCollider2D boxCollider;
     public float Speed = 0.5f;
     public bool canControl;
     public float jumpForce = 0.5f;
@@ -27,6 +28,7 @@ public class PlayerMovement : MonoBehaviour
         canControl = true;
         Character = GetComponent<Rigidbody2D>();
         Character.constraints = RigidbodyConstraints2D.FreezeRotation;
+        boxCollider = GetComponent<BoxCollider2D>();
 
         //inital spawn position
         respawnPoint = Character.transform.position;

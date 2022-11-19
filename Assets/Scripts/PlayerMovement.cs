@@ -88,12 +88,14 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.DrawRay(transform.position, Vector2.down * 2, Color.yellow);
+        Debug.DrawRay(transform.position + Vector3.right * boxCollider.size.x/2, Vector2.down * 2, Color.yellow);   //one ray on the right side of the collider
+        Debug.DrawRay(transform.position + Vector3.left * boxCollider.size.x/2, Vector2.down * 2, Color.yellow);    //other ray on left side
         LayerMask ground = LayerMask.GetMask("Default");
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 0.1f, ground);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2, -Vector2.up, 0.1f, ground);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2, -Vector2.up, 0.1f, ground);
 
-        if (hit.collider != null) {
+        if (hit.collider != null || hit2.collider != null) {    //as long as one of the rays is touching the ground, then you can jump
             inAir = false;
             //Debug.Log(hit.collider); 
         } else { 

@@ -30,7 +30,7 @@ public class PlayerMovement : MonoBehaviour
 
         //inital spawn position
         respawnPoint = Character.transform.position;
-        levels = new string [] {"Level 1", "Level 2", "Level 3", "Level 4"};
+        levels = new string [] {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7"};
     }
 
     // Update is called once per frame

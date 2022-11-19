@@ -124,6 +124,7 @@ public class PlayerMovement : MonoBehaviour
 
          if(col.gameObject.tag == "checkpoint"){
             respawnPoint = Character.transform.position;
+            col.GetComponent<SpriteRenderer>().color = new Color(1, 1, 0, 1); //make checkpoint yellow
          }
     }
 

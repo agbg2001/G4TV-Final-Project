@@ -7,10 +7,10 @@ TagManager:
   - ground
   - player
   - deathPlane
+  - bounds
   - Blue
   - Red
-  - BlueMove
-  - RedMove
+  - checkpoint
   layers:
   - Default
   - TransparentFX

@@ -5,12 +5,16 @@ using UnityEngine.SceneManagement;
 
 public class PlayerMovement : MonoBehaviour
 {
-    private Rigidbody2D Character;
+    public Rigidbody2D Character;
+    private BoxCollider2D boxCollider;
     public float Speed = 0.5f;
     public bool canControl;
     public float jumpForce = 0.5f;
     private bool inAir = false;
+
+    public float h;
     
+    public string[] levels;
     public bool alive = true;
     public bool endOfLevel = false;
     public float deadTime;
@@ -24,9 +28,11 @@ public class PlayerMovement : MonoBehaviour
         canControl = true;
         Character = GetComponent<Rigidbody2D>();
         Character.constraints = RigidbodyConstraints2D.FreezeRotation;
+        boxCollider = GetComponent<BoxCollider2D>();
+
         //inital spawn position
         respawnPoint = Character.transform.position;
-        
+        levels = new string [] {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8", "Level 9", "Level 10"};
     }
 
     // Update is called once per frame
@@ -36,33 +42,47 @@ public class PlayerMovement : MonoBehaviour
             canControl = true;
         }
         //left right movement
-         if(canControl == true)
+         if(canControl)
         {
-            float h = Input.GetAxisRaw("Horizontal") * Speed;
+            h = Input.GetAxisRaw("Horizontal") * Speed;
 
             Character.transform.position += new Vector3(h, 0, 0) * Time.deltaTime;
         }
 
         // jumping
-        if(Input.GetKeyDown(KeyCode.Space) && !inAir){
-            Debug.Log("trying to jump"); 
+        if(Input.GetKeyDown(KeyCode.Space) && !inAir && canControl){
+            //Debug.Log("trying to jump"); 
             
             Character.velocity = new Vector2(0f, jumpForce) * Speed;
             
         }
 
-        if (!alive && Input.anyKey){
+        if (!alive && Time.unscaledTime >= deadTime + deadLength){
 
-            if(endOfLevel == true){
-                //change levels (use an array?)
-                if(SceneManager.GetActiveScene().name == "Level 1"){
-                    SceneManager.LoadScene("Level 2");
-                }else SceneManager.LoadScene("Level 1");
+            if(endOfLevel == true){ //on end of level
 
                 endOfLevel = false;
+                Time.timeScale = 1.0f;
+
+                //change levels (use an array?)
+                for (int i = 0; i < levels.Length; i ++){
+                    Debug.Log(i);
+                    if(SceneManager.GetActiveScene().name == levels[i]){
+
+                        Debug.Log("level checked"); 
+                        
+                        if (i + 1 == levels.Length){ //currently, if you beat all the levels, it resets to level 1
+                            SceneManager.LoadScene(levels[0]);
+                        }
+                        else { 
+                            SceneManager.LoadScene(levels[i + 1]); 
+                        }
+                        
+                    }
+                }
             }
 
-            if(Time.unscaledTime >= deadTime + deadLength){
+            else { //on death
                 ResetScene();
             }
         }
@@ -70,14 +90,16 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.DrawRay(transform.position, Vector2.down * 2, Color.yellow);
+        Debug.DrawRay(transform.position + Vector3.right * boxCollider.size.x/2, Vector2.down * 2, Color.yellow);   //one ray on the right side of the collider
+        Debug.DrawRay(transform.position + Vector3.left * boxCollider.size.x/2, Vector2.down * 2, Color.yellow);    //other ray on left side
         LayerMask ground = LayerMask.GetMask("Default");
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, -Vector2.up, 0.1f, ground);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2, -Vector2.up, 0.1f, ground);
+        RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2, -Vector2.up, 0.1f, ground);
 
-        if (hit.collider != null) {
+        if (hit.collider != null || hit2.collider != null) {    //as long as one of the rays is touching the ground, then you can jump
             inAir = false;
-            Debug.Log(hit.collider); 
+            //Debug.Log(hit.collider); 
         } else { 
             inAir = true;
         }
@@ -85,29 +107,34 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        //end of level
+        //death
         if (col.gameObject.tag == "deathPlane") {
             Time.timeScale = 0.0f;
             deadTime = Time.unscaledTime;
-
             alive = false;
         }
-        // else{
-        //     score ++;
-        //     Debug.Log("Score is " + score);
 
-        //     scoreText.text = "Score: " + score;
+        //end of level
+        if (col.gameObject.tag == "Finish"){
+            Time.timeScale = 0.0f;
+            deadTime = Time.unscaledTime;
 
-        //     GetComponent<AudioSource>().Play();
-        // }
+            endOfLevel = true;
+            canControl = false;
+            alive = false;
+
+            Debug.Log("this is the end"); 
+        }
+
+         if(col.gameObject.tag == "checkpoint"){
+            respawnPoint = Character.transform.position;
+            col.GetComponent<SpriteRenderer>().color = new Color(1, 1, 0, 1); //make checkpoint yellow
+         }
     }
 
     void ResetScene()
     {
-        // change player colour
-        //GetComponent<SpriteRenderer>().color = Color.white;
-
-        // Reset to right position
+        // Reset to respawn position
         transform.position = respawnPoint;
 
         // Help flag, indicates the normal play mode

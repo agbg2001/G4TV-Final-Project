@@ -9,9 +9,6 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 1.unity
     guid: 2cda990e2423bbf4892e6590ba056729
   - enabled: 1
-    path: Assets/Scenes/SwapTest.unity
-    guid: 65c7d01ffb3c725498e264ca0be831ae
-  - enabled: 1
     path: Assets/Scenes/Level 2.unity
     guid: e982882351e4f384e8604176a791214a
   - enabled: 1
@@ -21,14 +18,14 @@ EditorBuildSettings:
     path: Assets/Scenes/Level 4.unity
     guid: 32aebec46691aec479fd34c5f65cf357
   - enabled: 1
-    path: Assets/Scenes/Level 7.unity
-    guid: 147714976e640c3408b5178c12e2b37b
+    path: Assets/Scenes/Level 5.unity
+    guid: f2b5b99048fa2f147a1bac2b94c2acaf
   - enabled: 1
     path: Assets/Scenes/Level 6.unity
     guid: d1a856773905ff84d955794d97e054ca
   - enabled: 1
-    path: Assets/Scenes/Level 5.unity
-    guid: f2b5b99048fa2f147a1bac2b94c2acaf
+    path: Assets/Scenes/Level 7.unity
+    guid: 147714976e640c3408b5178c12e2b37b
   - enabled: 1
     path: Assets/Scenes/Level 8.unity
     guid: bfdb68c48dc3ed146aa9265daa96ee0f
@@ -38,4 +35,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/Level 10.unity
     guid: 769d219dab9fcd94c90c59fad26c09c6
+  - enabled: 0
+    path: Assets/Scenes/SwapTest.unity
+    guid: 65c7d01ffb3c725498e264ca0be831ae
   m_configObjects: {}

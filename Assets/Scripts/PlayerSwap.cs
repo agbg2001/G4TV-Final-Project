@@ -22,7 +22,7 @@ public class PlayerSwap : MonoBehaviour
 
     void Start()
     {
-        audioManager = FindObjectOfType<AudioManager>();
+        audioManager = AudioManager.instance;
 
         redItems = GameObject.FindGameObjectsWithTag("Red");
         blueItems = GameObject.FindGameObjectsWithTag("Blue");

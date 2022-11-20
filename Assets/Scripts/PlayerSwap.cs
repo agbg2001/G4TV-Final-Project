@@ -72,13 +72,14 @@ public class PlayerSwap : MonoBehaviour
             }
 
             for (int i = 0; i < bgs.Length; i++){
-            if(isRedActive){
-                //change colour of bg to red
-                    bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.6981132f, 0.4504806f, 0.4504806f, 1);
-            }
-            else {
-                //change colour of bg to blue
-                    bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.4509804f, 0.5764555f, 0.6980392f, 1);
+                if(isRedActive){
+                    //change colour of bg to red
+                        bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.6981132f, 0.4504806f, 0.4504806f, 1);
+                }
+                else {
+                    //change colour of bg to blue
+                        bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.4509804f, 0.5764555f, 0.6980392f, 1);
+                }
             }
             
             

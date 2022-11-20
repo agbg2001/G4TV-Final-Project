@@ -7,32 +7,56 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private Transform[] waypoints;
     [SerializeField] public float speed;
     [SerializeField] private float checkDistance = 0.05f;
-
-    Rigidbody2D platformRigidbody;
-
+        private Vector2 startPosition;
+        private Vector2 endPosition;
+        private Rigidbody2D rBody;
     private Transform targetWaypoint;
     private int currentWaypointIndex = 0;
-    
-    // Start is called before the first frame update
+    public bool isActive = false;
+
     void Start()
-    {
-        targetWaypoint = waypoints[0];
-        platformRigidbody = GetComponent<Rigidbody2D>();
-    }
+        {
+        targetWaypoint = waypoints[currentWaypointIndex];
+       rBody = GetComponent<Rigidbody2D>();
 
-    // Update is called once per frame
-    void Update()
-    {
-        //transform.position = Vector2.MoveTowards(transform.position, targetWaypoint.position, speed * Time.deltaTime);
-        platformRigidbody.velocity = (targetWaypoint.position - transform.position).normalized * speed;
+        }
 
+        void Update()
+        {
+               if (isActive)
+        {
+            StartCoroutine(Move(gameObject, targetWaypoint.position, speed));
+        }
+        
         if (Vector2.Distance(transform.position, targetWaypoint.position) < checkDistance)
         {
             targetWaypoint = GetNextWaypoint();
         }
-
-        
     }
+
+        public IEnumerator Move(GameObject obj, Vector2 target, float speed)
+        {
+            Vector2 startPosition = obj.transform.position;
+            float time = 0f;
+
+            while (rBody.position != target)
+            {
+                obj.transform.position = Vector2.MoveTowards(startPosition, target, (time / Vector2.Distance(startPosition, target)) * speed);
+                time += Time.deltaTime;
+                yield return null;
+            }
+        }
+
+        void OnCollisionEnter2D(Collision2D col)
+        {
+            col.gameObject.transform.SetParent(gameObject.transform, true);
+        }
+
+        void OnCollisionExit2D(Collision2D col)
+        {
+            col.gameObject.transform.parent = null;
+        }
+
     private Transform GetNextWaypoint()
     {
         currentWaypointIndex++;
@@ -43,3 +67,4 @@ public class MovingPlatform : MonoBehaviour
         return waypoints[currentWaypointIndex];
     }
 }
+

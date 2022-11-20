@@ -36,15 +36,11 @@ public class PlayerSwap : MonoBehaviour
             {
                 redTrans = 1f;
                 blueTrans = .4f;
-                redSpeed = 10f;
-                blueSpeed = 0f;
             }
             else if (!isRedActive)
             {
                 redTrans = .4f;
                 blueTrans = 1f;
-                redSpeed = 0f;
-                blueSpeed = 10f;
             }
             for (int i = 0; i < redItems.Length; i++)
             {
@@ -66,37 +62,35 @@ public class PlayerSwap : MonoBehaviour
             for (int i = 0; i < redMoveItems.Length; i++)
             {
                 //redItems[i].SetActive(isRedActive);
-                redSprite = redMoveItems[i].GetComponent<SpriteRenderer>();
-                var redScriptSpeed = redMoveItems[i].GetComponent<MovingPlatform>();
-                //redScriptSpeed.speed = redSpeed;
-                redSprite.color = new Color(1f, 1f, 1f, redTrans);
+                //redSprite = redMoveItems[i].GetComponent<SpriteRenderer>();
+                var redScript = redMoveItems[i].GetComponent<MovingPlatform>();
+                //redSprite.color = new Color(1f, 1f, 1f, redTrans);
                 if (isRedActive)
                 {
-                    redScriptSpeed.isActive = true;
+                    redScript.isActive = true;
                 }
                 else if (!isRedActive)
                 {
-                    redScriptSpeed.StopAllCoroutines();
-                    redScriptSpeed.isActive = false;
+                    redScript.StopAllCoroutines();
+                    redScript.isActive = false;
                 }
 
             }
             for (int i = 0; i < blueMoveItems.Length; i++)
             {
                 //blueItems[i].SetActive(!isRedActive);
-                blueSprite = blueMoveItems[i].GetComponent<SpriteRenderer>();
-                var blueScriptSpeed = blueMoveItems[i].GetComponent<MovingPlatform>();
-                //blueScriptSpeed.speed = blueSpeed;
-                blueSprite.color = new Color(1f, 1f, 1f, blueTrans);
+                //blueSprite = blueMoveItems[i].GetComponent<SpriteRenderer>();
+                var blueScript = blueMoveItems[i].GetComponent<MovingPlatform>();
+                //blueSprite.color = new Color(1f, 1f, 1f, blueTrans);
                 if(isRedActive)
                 {
-                    blueScriptSpeed.isActive = false;
-                    blueScriptSpeed.StopAllCoroutines();
+                    blueScript.isActive = false;
+                    blueScript.StopAllCoroutines();
                 }
                 else if(!isRedActive)
                 {
 
-                    blueScriptSpeed.isActive = true;
+                    blueScript.isActive = true;
                 }
             }
 

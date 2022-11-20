@@ -11,11 +11,12 @@ TagManager:
   - Blue
   - Red
   - checkpoint
+  - Background
   layers:
   - Default
   - TransparentFX
   - Ignore Raycast
-  - 
+  - Gem
   - Water
   - UI
   - 

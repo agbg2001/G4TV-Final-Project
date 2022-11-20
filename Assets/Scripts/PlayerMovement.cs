@@ -11,6 +11,7 @@ public class PlayerMovement : MonoBehaviour
     public bool canControl;
     public float jumpForce = 0.5f;
     private bool inAir = false;
+    private bool onGem = false;
 
     public float h;
     
@@ -22,9 +23,13 @@ public class PlayerMovement : MonoBehaviour
 
     private Vector3 respawnPoint;
 
+    private AudioManager audioManager;
+
     // Start is called before the first frame update
     void Start()
     {
+        audioManager = FindObjectOfType<AudioManager>();
+
         canControl = true;
         Character = GetComponent<Rigidbody2D>();
         Character.constraints = RigidbodyConstraints2D.FreezeRotation;
@@ -47,12 +52,32 @@ public class PlayerMovement : MonoBehaviour
             h = Input.GetAxisRaw("Horizontal") * Speed;
 
             Character.transform.position += new Vector3(h, 0, 0) * Time.deltaTime;
+
+            if (Mathf.Abs(h) > 0 && !inAir){
+                if (!onGem && !audioManager.IsPlaying("walkStone")){
+                    audioManager.Play("walkStone");
+                }
+                else if (onGem && !audioManager.IsPlaying("walkGem")){
+                    audioManager.Play("walkGem");
+                }
+            }
+            else if (h == 0 || inAir) {
+                audioManager.Stop("walkStone");
+                audioManager.Stop("walkGem");
+            }
         }
 
         // jumping
         if(Input.GetKeyDown(KeyCode.Space) && !inAir && canControl){
             //Debug.Log("trying to jump"); 
             
+            if (onGem) {
+                audioManager.Play("jumpGem");
+            }
+            else {
+                audioManager.Play("jumpStone");
+            }
+
             Character.velocity = new Vector2(0f, jumpForce) * Speed;
             
         }
@@ -93,14 +118,23 @@ public class PlayerMovement : MonoBehaviour
         Debug.DrawRay(transform.position + Vector3.right * boxCollider.size.x/2, Vector2.down * 2, Color.yellow);   //one ray on the right side of the collider
         Debug.DrawRay(transform.position + Vector3.left * boxCollider.size.x/2, Vector2.down * 2, Color.yellow);    //other ray on left side
         LayerMask ground = LayerMask.GetMask("Default");
+        LayerMask gem = LayerMask.GetMask("Gem");
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2, -Vector2.up, 0.1f, ground);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2, -Vector2.up, 0.1f, ground);
 
+        RaycastHit2D hitGem = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2, -Vector2.up, 0.1f, gem);
+        RaycastHit2D hit2Gem = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2, -Vector2.up, 0.1f, gem);
+
         if (hit.collider != null || hit2.collider != null) {    //as long as one of the rays is touching the ground, then you can jump
             inAir = false;
-            //Debug.Log(hit.collider); 
-        } else { 
+            onGem = false;
+        }
+        else if (hitGem.collider != null || hit2Gem.collider != null) { //if the rays are touching the gems
+            inAir = false;
+            onGem = true;
+        }
+         else { 
             inAir = true;
         }
     }
@@ -109,6 +143,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //death
         if (col.gameObject.tag == "deathPlane") {
+            audioManager.Play("death");
             Time.timeScale = 0.0f;
             deadTime = Time.unscaledTime;
             alive = false;
@@ -127,7 +162,7 @@ public class PlayerMovement : MonoBehaviour
         }
 
          if(col.gameObject.tag == "checkpoint"){
-            respawnPoint = Character.transform.position;
+            respawnPoint = col.transform.position;
             col.GetComponent<SpriteRenderer>().color = new Color(1, 1, 0, 1); //make checkpoint yellow
          }
     }
@@ -136,13 +171,11 @@ public class PlayerMovement : MonoBehaviour
     {
         // Reset to respawn position
         transform.position = respawnPoint;
+        audioManager.Play("respawn");
 
         // Help flag, indicates the normal play mode
         alive = true;
 
-        // Reset the background
-       
-       
 
         // Unpause the game, FixedUpdate is called again every frame.
         Time.timeScale = 1.0f;

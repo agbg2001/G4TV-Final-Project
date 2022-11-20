@@ -13,10 +13,16 @@ public class PlayerSwap : MonoBehaviour
     private float redTrans = 1.0f;
     private float blueTrans = 0.4f;
     public bool isRedActive = true;
+    public GameObject[] bgs;
+    private AudioManager audioManager;
+
     void Start()
     {
+        audioManager = FindObjectOfType<AudioManager>();
+
         redItems = GameObject.FindGameObjectsWithTag("Red");
         blueItems = GameObject.FindGameObjectsWithTag("Blue");
+        bgs = GameObject.FindGameObjectsWithTag("Background");
 
         UpdateColour();
             
@@ -27,6 +33,8 @@ public class PlayerSwap : MonoBehaviour
     {
         if (Input.GetKeyDown(KeyCode.LeftShift))
         {
+            audioManager.Play("swap");
+
             isRedActive = !isRedActive;
             if (isRedActive)
             {
@@ -38,7 +46,7 @@ public class PlayerSwap : MonoBehaviour
                 redTrans = .4f;
                 blueTrans = 1f;
             }
-            
+
             UpdateColour();
             
         }
@@ -61,5 +69,17 @@ public class PlayerSwap : MonoBehaviour
             blueItems[i].GetComponent<Collider2D>().enabled = !isRedActive;
             blueSprite.color = new Color(1f, 1f, 1f, blueTrans);
         }
+
+        for (int i = 0; i < bgs.Length; i++){
+            if(isRedActive){
+                //change colour of bg to red
+                    bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.6981132f, 0.4504806f, 0.4504806f, 1);
+            }
+            else {
+                //change colour of bg to blue
+                    bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.4509804f, 0.5764555f, 0.6980392f, 1);
+            }
+        }
+        
     }
 }

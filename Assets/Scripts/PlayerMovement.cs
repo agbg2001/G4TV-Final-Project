@@ -33,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
         canControl = true;
         Character = GetComponent<Rigidbody2D>();
         Character.constraints = RigidbodyConstraints2D.FreezeRotation;
-        boxCollider = gameObject.GetComponent<BoxCollider2D>();
+        boxCollider = GetComponent<BoxCollider2D>();
 
         //inital spawn position
         respawnPoint = Character.transform.position;

@@ -11,6 +11,8 @@ TagManager:
   - Blue
   - Red
   - checkpoint
+  - BlueMove
+  - RedMove
   layers:
   - Default
   - TransparentFX

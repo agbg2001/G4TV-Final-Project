@@ -115,10 +115,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.DrawRay(transform.position + Vector3.right * boxCollider.size.x/2.5f, Vector2.down * 2, Color.yellow);   //one ray on the right side of the collider
-        Debug.DrawRay(transform.position + Vector3.left * boxCollider.size.x/2.5f, Vector2.down * 2, Color.yellow);    //other ray on left side
+        /*Debug.DrawRay(transform.position + Vector3.right * boxCollider.size.x/2.5f, Vector2.down * 2, Color.yellow);   //one ray on the right side of the collider
+        Debug.DrawRay(transform.position + Vector3.left * boxCollider.size.x/2.5f, Vector2.down * 2, Color.yellow);    //other ray on left side*/
         LayerMask ground = LayerMask.GetMask("Default");
         LayerMask gem = LayerMask.GetMask("Gem");
+        LayerMask movePlatform = LayerMask.GetMask("MovePlatform");
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, ground);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, ground);
@@ -126,11 +127,15 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D hitGem = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, gem);
         RaycastHit2D hit2Gem = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, gem);
 
+        RaycastHit2D hitMove = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, movePlatform);
+        RaycastHit2D hit2Move = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, movePlatform);
+
         if (hit.collider != null || hit2.collider != null) {    //as long as one of the rays is touching the ground, then you can jump
             inAir = false;
             onGem = false;
         }
-        else if (hitGem.collider != null || hit2Gem.collider != null) { //if the rays are touching the gems
+        else if (hitGem.collider != null || hit2Gem.collider != null || 
+                 hitMove.collider != null || hit2Move.collider != null) { //if the rays are touching the gems/moving platforms
             inAir = false;
             onGem = true;
         }

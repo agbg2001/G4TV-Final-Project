@@ -48,9 +48,26 @@ public class MovingPlatform : MonoBehaviour
         }
     }
 
-    void OnCollisionEnter2D(Collision2D col)
+    void OnCollisionStay2D(Collision2D col)
     {
-        col.gameObject.transform.SetParent(gameObject.transform, true);
+        //col.gameObject.transform.SetParent(gameObject.transform, true);
+        GameObject player = col.gameObject;
+        BoxCollider2D playerCollider = player.GetComponent<BoxCollider2D>();
+        
+        /*Debug.DrawRay(player.transform.position + Vector3.right * playerCollider.size.x/2.5f, Vector2.down * 2, Color.green);   //one ray on the right side of the collider
+        Debug.DrawRay(player.transform.position + Vector3.left * playerCollider.size.x/2.5f, Vector2.down * 2, Color.green);    //other ray on left side*/
+
+        LayerMask movePlatform = LayerMask.GetMask("MovePlatform");
+
+        RaycastHit2D hitMove = Physics2D.Raycast(player.transform.position + Vector3.right * playerCollider.size.x/2.5f, -Vector2.up, 0.1f, movePlatform);
+        RaycastHit2D hit2Move = Physics2D.Raycast(player.transform.position + Vector3.left * playerCollider.size.x/2.5f, -Vector2.up, 0.1f, movePlatform);
+
+        if (hitMove.collider != null || hit2Move.collider != null) { //if the rays are touching the moving platforms
+            col.gameObject.transform.SetParent(gameObject.transform, true);
+        }
+         else { 
+            col.gameObject.transform.parent = null;
+        }
     }
 
     void OnCollisionExit2D(Collision2D col)

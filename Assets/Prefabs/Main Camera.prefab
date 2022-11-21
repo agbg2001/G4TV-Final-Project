@@ -201,7 +201,7 @@ Transform:
   m_Children:
   - {fileID: 7466624599786150068}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!20 &7466624597896734274
 Camera:
@@ -267,7 +267,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxRight: 2
-  maxLeft: -4
+  maxLeft: -2
 --- !u!1 &7466624597930313944
 GameObject:
   m_ObjectHideFlags: 0

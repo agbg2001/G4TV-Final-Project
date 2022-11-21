@@ -30,6 +30,8 @@ public class PlayerSwap : MonoBehaviour
         blueMoveItems = GameObject.FindGameObjectsWithTag("BlueMove");
         bgs = GameObject.FindGameObjectsWithTag("Background");
 
+        //update before first frame
+        UpdateColours();
     }
 
     // Update is called once per frame
@@ -40,7 +42,13 @@ public class PlayerSwap : MonoBehaviour
             audioManager.Play("swap");
 
             isRedActive = !isRedActive;
-            if (isRedActive)
+            UpdateColours();
+
+        }        
+    }
+
+    void UpdateColours(){
+        if (isRedActive)
             {
                 redTrans = 1f;
                 blueTrans = .4f;
@@ -113,19 +121,5 @@ public class PlayerSwap : MonoBehaviour
                     blueScript.isActive = true;
                 }
             }
-
-        }
-
-        for (int i = 0; i < bgs.Length; i++){
-            if(isRedActive){
-                //change colour of bg to red
-                    bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.6981132f, 0.4504806f, 0.4504806f, 1);
-            }
-            else {
-                //change colour of bg to blue
-                    bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.4509804f, 0.5764555f, 0.6980392f, 1);
-            }
-        }
-        
     }
 }

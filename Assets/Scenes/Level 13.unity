@@ -331,7 +331,7 @@ GameObject:
   - component: {fileID: 119164573}
   - component: {fileID: 119164572}
   - component: {fileID: 119164571}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Red Platform
   m_TagString: RedMove
   m_Icon: {fileID: 0}
@@ -508,6 +508,7 @@ MonoBehaviour:
   redMoveItems: []
   blueMoveItems: []
   isRedActive: 1
+  bgs: []
 --- !u!114 &166921838
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1384,7 +1385,7 @@ GameObject:
   - component: {fileID: 1143475680}
   - component: {fileID: 1143475679}
   - component: {fileID: 1143475678}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: MoveBluePlatform (1)
   m_TagString: BlueMove
   m_Icon: {fileID: 0}

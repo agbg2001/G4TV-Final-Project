@@ -16,6 +16,9 @@ public class PlayerSwap : MonoBehaviour
     private float blueTrans;
     private float redSpeed;
     private float blueSpeed;
+    public Sprite greyGem;
+    public Sprite blueGem;
+    public Sprite redGem;
     public bool isRedActive = true;
     public GameObject[] bgs;
     private AudioManager audioManager;
@@ -90,36 +93,40 @@ public class PlayerSwap : MonoBehaviour
             for (int i = 0; i < redMoveItems.Length; i++)
             {
                 //redItems[i].SetActive(isRedActive);
-                //redSprite = redMoveItems[i].GetComponent<SpriteRenderer>();
+                redSprite = redMoveItems[i].GetComponent<SpriteRenderer>();
                 var redScript = redMoveItems[i].GetComponent<MovingPlatform>();
                 //redSprite.color = new Color(1f, 1f, 1f, redTrans);
                 if (isRedActive)
                 {
                     redScript.isActive = true;
+                redSprite.sprite = redGem;
                 }
                 else if (!isRedActive)
                 {
                     redScript.StopAllCoroutines();
                     redScript.isActive = false;
-                }
+                redSprite.sprite = greyGem;
+            }
 
             }
             for (int i = 0; i < blueMoveItems.Length; i++)
             {
                 //blueItems[i].SetActive(!isRedActive);
-                //blueSprite = blueMoveItems[i].GetComponent<SpriteRenderer>();
+                blueSprite = blueMoveItems[i].GetComponent<SpriteRenderer>();
                 var blueScript = blueMoveItems[i].GetComponent<MovingPlatform>();
                 //blueSprite.color = new Color(1f, 1f, 1f, blueTrans);
                 if(isRedActive)
                 {
                     blueScript.isActive = false;
                     blueScript.StopAllCoroutines();
-                }
+                blueSprite.sprite = greyGem;
+            }
                 else if(!isRedActive)
                 {
 
                     blueScript.isActive = true;
-                }
+                blueSprite.sprite = blueGem;
+            }
             }
     }
 }

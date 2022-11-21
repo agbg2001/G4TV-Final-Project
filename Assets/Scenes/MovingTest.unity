@@ -1912,6 +1912,9 @@ MonoBehaviour:
   blueItems: []
   redMoveItems: []
   blueMoveItems: []
+  greyGem: {fileID: 21300000, guid: 5a77b7e37449c7746ad51b3fb620c24f, type: 3}
+  blueGem: {fileID: 21300000, guid: 04fe2a87e30a91a468621fdb83d6fbb1, type: 3}
+  redGem: {fileID: 21300000, guid: 48485d3be06148440a909ca78a3873fe, type: 3}
   isRedActive: 1
   bgs: []
 --- !u!1001 &4782500880641064846

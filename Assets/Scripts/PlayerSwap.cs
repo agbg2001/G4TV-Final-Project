@@ -99,14 +99,14 @@ public class PlayerSwap : MonoBehaviour
                 if (isRedActive)
                 {
                     redScript.isActive = true;
-                redSprite.sprite = redGem;
+                    redSprite.sprite = redGem;
                 }
                 else if (!isRedActive)
                 {
                     redScript.StopAllCoroutines();
                     redScript.isActive = false;
-                redSprite.sprite = greyGem;
-            }
+                    redSprite.sprite = greyGem;
+                }
 
             }
             for (int i = 0; i < blueMoveItems.Length; i++)
@@ -119,14 +119,14 @@ public class PlayerSwap : MonoBehaviour
                 {
                     blueScript.isActive = false;
                     blueScript.StopAllCoroutines();
-                blueSprite.sprite = greyGem;
-            }
+                    blueSprite.sprite = greyGem;
+                }
                 else if(!isRedActive)
                 {
 
                     blueScript.isActive = true;
-                blueSprite.sprite = blueGem;
-            }
+                    blueSprite.sprite = blueGem;
+                }
             }
     }
 }

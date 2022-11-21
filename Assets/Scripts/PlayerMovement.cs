@@ -37,7 +37,6 @@ public class PlayerMovement : MonoBehaviour
 
         //inital spawn position
         respawnPoint = Character.transform.position;
-        levels = new string [] {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8", "Level 9", "Level 10", "Level 11", "Level 12", "Level 13", "Level 14", "Level 15"};
     }
 
     // Update is called once per frame
@@ -89,22 +88,8 @@ public class PlayerMovement : MonoBehaviour
                 endOfLevel = false;
                 Time.timeScale = 1.0f;
 
-                //change levels (use an array?)
-                for (int i = 0; i < levels.Length; i ++){
-                    Debug.Log(i);
-                    if(SceneManager.GetActiveScene().name == levels[i]){
-
-                        Debug.Log("level checked"); 
-                        
-                        if (i + 1 == levels.Length){ //currently, if you beat all the levels, it resets to level 1
-                            SceneManager.LoadScene(levels[0]);
-                        }
-                        else { 
-                            SceneManager.LoadScene(levels[i + 1]); 
-                        }
-                        
-                    }
-                }
+                //change levels
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
 
             else { //on death

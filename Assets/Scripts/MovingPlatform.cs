@@ -9,12 +9,14 @@ public class MovingPlatform : MonoBehaviour
     [SerializeField] private float checkDistance = 0.05f;
     private Rigidbody2D rBody;
     private Transform targetWaypoint;
+    private Transform originWaypoint;
     private int currentWaypointIndex = 0;
     public bool isActive = false;
 
     void Start()
     {
         targetWaypoint = waypoints[0];
+        originWaypoint = waypoints[waypoints.Length-1];
         rBody = GetComponent<Rigidbody2D>();
 
     }
@@ -23,23 +25,24 @@ public class MovingPlatform : MonoBehaviour
     {
         if (isActive)
         {
-            StartCoroutine(Move(gameObject, targetWaypoint.position, speed));
+            StartCoroutine(Move(gameObject, originWaypoint.position, targetWaypoint.position, speed));
         }
 
         if (Vector2.Distance(transform.position, targetWaypoint.position) < checkDistance)
         {
+            originWaypoint = targetWaypoint;
             targetWaypoint = GetNextWaypoint();
         }
     }
 
-    public IEnumerator Move(GameObject obj, Vector2 target, float speed)
+    public IEnumerator Move(GameObject obj, Vector2 origin, Vector2 target, float speed)
     {
         Vector2 startPosition = obj.transform.position;
         float time = 0f;
 
         while (rBody.position != target)
         {
-            obj.transform.position = Vector2.MoveTowards(startPosition, target, (time / Vector2.Distance(startPosition, target)) * speed);
+            obj.transform.position = Vector2.MoveTowards(startPosition, target, (time / Vector2.Distance(origin, target)) * speed);
             time += Time.deltaTime;
             yield return null;
         }
@@ -64,5 +67,6 @@ public class MovingPlatform : MonoBehaviour
         }
         return waypoints[currentWaypointIndex];
     }
+
 }
 

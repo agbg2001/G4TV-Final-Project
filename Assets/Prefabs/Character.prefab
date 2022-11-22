@@ -182,7 +182,7 @@ Transform:
   m_Children:
   - {fileID: 6320182472593419496}
   m_Father: {fileID: 0}
-  m_RootOrder: 0
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!212 &6320182472918964398
 SpriteRenderer:
@@ -305,6 +305,7 @@ MonoBehaviour:
   endOfLevel: 0
   deadTime: 0
   deadLength: 0.5
+  transition: {fileID: 8643082766808834222, guid: 217c9212fc1595a48a40f7d2757fdd56, type: 3}
 --- !u!114 &6320182472918964400
 MonoBehaviour:
   m_ObjectHideFlags: 0

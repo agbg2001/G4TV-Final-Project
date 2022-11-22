@@ -84,7 +84,6 @@ public class PlayerMovement : MonoBehaviour
         if (!alive && Time.unscaledTime >= deadTime + deadLength){
 
             if(endOfLevel == true){ //on end of level
-
                 endOfLevel = false;
                 Time.timeScale = 1.0f;
 
@@ -141,19 +140,21 @@ public class PlayerMovement : MonoBehaviour
 
         //end of level
         if (col.gameObject.tag == "Finish"){
+            audioManager.Play("finish");
             Time.timeScale = 0.0f;
             deadTime = Time.unscaledTime;
 
             endOfLevel = true;
             canControl = false;
             alive = false;
-
-            Debug.Log("this is the end"); 
         }
 
          if(col.gameObject.tag == "checkpoint"){
-            respawnPoint = col.transform.position;
-            col.GetComponent<SpriteRenderer>().color = new Color(0.9056604f, 0.9058824f, 0.4135279f, 1); //make checkpoint yellow
+            if (col.GetComponent<SpriteRenderer>().color != new Color(0.9056604f, 0.9058824f, 0.4135279f, 1)) { //if checkpoint has not been reached yet
+                audioManager.Play("checkpoint");
+                respawnPoint = col.transform.position;
+                col.GetComponent<SpriteRenderer>().color = new Color(0.9056604f, 0.9058824f, 0.4135279f, 1); //make checkpoint yellow
+            }
          }
     }
 

@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 7088274553046594945}
   - component: {fileID: 872413129230239766}
   - component: {fileID: 1059202746322396198}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: RedMovePlatform
   m_TagString: RedMove
   m_Icon: {fileID: 0}

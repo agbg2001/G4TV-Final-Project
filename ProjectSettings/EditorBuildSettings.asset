@@ -56,4 +56,19 @@ EditorBuildSettings:
   - enabled: 0
     path: Assets/Scenes/SwapTest.unity
     guid: 65c7d01ffb3c725498e264ca0be831ae
+  - enabled: 1
+    path: Assets/Scenes/Level 16.unity
+    guid: 39380e7eaebd38f45a3d7c684522945b
+  - enabled: 1
+    path: Assets/Scenes/Level 17.unity
+    guid: c9c75386443e26f47a6c3ac18dd5b7d0
+  - enabled: 1
+    path: Assets/Scenes/Level 18.unity
+    guid: ba00ba8b90f21584e8f74c4b6d4a7184
+  - enabled: 1
+    path: Assets/Scenes/Level 19.unity
+    guid: 9709e3592d7e8be4eb08cf0ba7d0a14b
+  - enabled: 1
+    path: Assets/Scenes/Level 20.unity
+    guid: cf3892928419aa143a2ec9c4ca5db4e9
   m_configObjects: {}

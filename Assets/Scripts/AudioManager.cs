@@ -31,11 +31,11 @@ public class AudioManager : MonoBehaviour
     }
 
     void Update() {
-        if (SceneManager.GetActiveScene().name == "Menu" && !IsPlaying("titleTheme")){
+        if ((SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Ending") && !IsPlaying("titleTheme")){
             Stop("bgm");
             Play("titleTheme"); //plays title theme on main menu
         }
-        else if (SceneManager.GetActiveScene().name != "Menu" && !IsPlaying("bgm")){
+        else if (!(SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Ending") && !IsPlaying("bgm")){
             Stop("titleTheme");
             Play("bgm");    //automatically plays bgm in levels
         }

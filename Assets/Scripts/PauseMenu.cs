@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 using TMPro;
@@ -9,8 +10,8 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused = false;
     public GameObject pauseUI;
     public TMP_Text timerText;
-    private float secondsCount;
-    private int minuteCount;
+    private float totalSeconds; //
+
     // Update is called once per frame
     void Update()
     {
@@ -33,6 +34,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void ResumeGame (){
         ButtonPressed();
+        pauseUI.SetActive(false);
         isPaused = false;
     }
 
@@ -51,16 +53,11 @@ public class PauseMenu : MonoBehaviour
         //set timer UI
         if (!isPaused)
         {
-            secondsCount += Time.deltaTime;
-        }
+            totalSeconds += Time.deltaTime;
 
-        timerText.text = (int)secondsCount + "";
-        //timerText.text = minuteCount + ":" + (int)secondsCount + "";
-        /*if (secondsCount >= 60)
-        {
-            minuteCount++;
-            secondsCount = 0;
-        }*/
+        }
+        timerText.text = TimeSpan.FromSeconds(totalSeconds).ToString("mm\\:ss\\.f");
+
     }
 
 }

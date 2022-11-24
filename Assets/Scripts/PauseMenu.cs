@@ -33,6 +33,7 @@ public class PauseMenu : MonoBehaviour
     }
     public void ResumeGame (){
         ButtonPressed();
+        pauseUI.SetActive(false);
         isPaused = false;
     }
 

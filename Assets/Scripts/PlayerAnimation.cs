@@ -35,10 +35,10 @@ public class PlayerAnimation : MonoBehaviour
 
         //Flip sprite when moving left
         if (playerMovement.h < 0) {
-            spriteRenderer.flipX = true;
+            transform.localScale = new Vector3(-.75f, .75f, .75f);
         }
         else if (playerMovement.h > 0) {
-            spriteRenderer.flipX = false;
+            transform.localScale = new Vector3(.75f, .75f, .75f);
         }
 
         animator.SetFloat("PlayerSpeed", Mathf.Abs(playerMovement.h));   //set Speed = absolute val of horizontal movement speed

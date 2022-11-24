@@ -30,12 +30,14 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start() {
-        if (SceneManager.GetActiveScene().name == "Menu"){
-            Play("titleTheme");
+    void Update() {
+        if ((SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Ending") && !IsPlaying("titleTheme")){
+            Stop("bgm");
+            Play("titleTheme"); //plays title theme on main menu
         }
-        else {
-            Play("bgm");    //automatically plays bgm
+        else if (!(SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Ending") && !IsPlaying("bgm")){
+            Stop("titleTheme");
+            Play("bgm");    //automatically plays bgm in levels
         }
     }
 

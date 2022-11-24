@@ -52,7 +52,7 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: bgm
     clip: {fileID: 8300000, guid: fde80dc16b213204e89a9d80e41b3855, type: 3}
-    volume: 0.87
+    volume: 1
     loop: 1
     source: {fileID: 0}
   - name: death

@@ -383,13 +383,14 @@ MonoBehaviour:
   Character: {fileID: 0}
   Speed: 4
   canControl: 1
-  jumpForce: 2
+  jumpForce: 9
   h: 0
   levels: []
   alive: 1
   endOfLevel: 0
   deadTime: 0
   deadLength: 0.5
+  deathCount: 0
 --- !u!114 &6320182472918964400
 MonoBehaviour:
   m_ObjectHideFlags: 0

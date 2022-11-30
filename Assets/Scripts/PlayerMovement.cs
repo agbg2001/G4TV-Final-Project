@@ -79,7 +79,7 @@ public class PlayerMovement : MonoBehaviour
                 audioManager.Play("jumpStone");
             }
 
-            Character.velocity = new Vector2(0f, jumpForce) * Speed;
+            Character.velocity = new Vector2(0f, jumpForce);
             
         }
 

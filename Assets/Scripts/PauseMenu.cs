@@ -10,12 +10,27 @@ public class PauseMenu : MonoBehaviour
     public static bool isPaused = false;
     public GameObject pauseUI;
     public TMP_Text timerText;
-    private float totalSeconds; //
+    private float totalSeconds;
 
+    PlayerMovement playerMovement;
+    public GameObject character; 
+    public TMP_Text deathCounterText;
+    public TMP_Text levelText;
+    
+    void Start()
+    {
+        levelText.text = SceneManager.GetActiveScene().name;
+    }
+    void Awake()
+    {
+        playerMovement = character.GetComponent<PlayerMovement>();  //Access the movement script
+    }
     // Update is called once per frame
     void Update()
     {
-        UpdateTimerUI();
+        UpdateTimerUI();      
+        UpdateDeathCounter();
+        
 
         if (Input.GetKeyDown(KeyCode.Escape)){
             if (isPaused){
@@ -35,7 +50,6 @@ public class PauseMenu : MonoBehaviour
     public void ResumeGame (){
         ButtonPressed();
         pauseUI.SetActive(false);
-        isPaused = false;
     }
 
     public void MainMenu(){
@@ -58,6 +72,11 @@ public class PauseMenu : MonoBehaviour
         }
         timerText.text = TimeSpan.FromSeconds(totalSeconds).ToString("mm\\:ss\\.f");
 
+    }
+
+    public void UpdateDeathCounter()
+    {
+        deathCounterText.text = "Deaths: " + playerMovement.deathCount;
     }
 
 }

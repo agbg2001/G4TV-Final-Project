@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     public float deadTime;
     public float deadLength = 0.5f;
 
+    public int deathCount = 0;
+
     private Vector3 respawnPoint;
 
     private AudioManager audioManager;
@@ -132,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //death
         if (col.gameObject.tag == "deathPlane") {
+            deathCount ++;
             audioManager.Play("death");
             Time.timeScale = 0.0f;
             deadTime = Time.unscaledTime;

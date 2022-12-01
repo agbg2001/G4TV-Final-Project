@@ -105,7 +105,7 @@ public class PlayerSwap : MonoBehaviour
                 {
                     redScript.StopAllCoroutines();
                     redScript.isActive = false;
-                    redSprite.sprite = greyGem;
+                    //redSprite.sprite = greyGem;
                 }
 
             }
@@ -119,7 +119,7 @@ public class PlayerSwap : MonoBehaviour
                 {
                     blueScript.isActive = false;
                     blueScript.StopAllCoroutines();
-                    blueSprite.sprite = greyGem;
+                    //blueSprite.sprite = greyGem;
                 }
                 else if(!isRedActive)
                 {

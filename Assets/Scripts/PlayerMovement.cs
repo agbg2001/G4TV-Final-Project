@@ -144,10 +144,12 @@ public class PlayerMovement : MonoBehaviour
         //end of level
         if (col.gameObject.tag == "Finish"){
             audioManager.Play("finish");
+            endOfLevel = true;
+            Animator princeAnimator = col.gameObject.GetComponent<Animator>();  //get animator of prince
+            princeAnimator.SetBool("End", endOfLevel);  //set End to true to trigger transition to end sprite
+
             Time.timeScale = 0.0f;
             deadTime = Time.unscaledTime;
-
-            endOfLevel = true;
             canControl = false;
             alive = false;
         }

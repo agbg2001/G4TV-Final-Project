@@ -72,22 +72,22 @@ MonoBehaviour:
     source: {fileID: 0}
   - name: walkStone
     clip: {fileID: 8300000, guid: 01b17156e98b3254ebf9572f63366c61, type: 3}
-    volume: 0.5
+    volume: 0.8
     loop: 0
     source: {fileID: 0}
   - name: jumpStone
     clip: {fileID: 8300000, guid: 03974f4aab3397a40b45ff63f12f25a2, type: 3}
-    volume: 0.5
+    volume: 0.8
     loop: 0
     source: {fileID: 0}
   - name: walkGem
     clip: {fileID: 8300000, guid: 117a4adfb9592bb47a0475f7dae10581, type: 3}
-    volume: 0.5
+    volume: 1
     loop: 0
     source: {fileID: 0}
   - name: jumpGem
     clip: {fileID: 8300000, guid: 8a4ebfc3e4c78134693653ce70f06d93, type: 3}
-    volume: 0.5
+    volume: 1
     loop: 0
     source: {fileID: 0}
   - name: checkpoint
@@ -96,7 +96,12 @@ MonoBehaviour:
     loop: 0
     source: {fileID: 0}
   - name: finish
-    clip: {fileID: 8300000, guid: cba79a213991f9b4887c42459ed323c3, type: 3}
+    clip: {fileID: 8300000, guid: 28a078a1915badd4a9b123b87d179f1c, type: 3}
     volume: 1
     loop: 0
+    source: {fileID: 0}
+  - name: ending
+    clip: {fileID: 8300000, guid: 4c90f24a66c0ff24cbca97bc7251f1dd, type: 3}
+    volume: 1
+    loop: 1
     source: {fileID: 0}

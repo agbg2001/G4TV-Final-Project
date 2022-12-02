@@ -16,6 +16,9 @@ public class PlayerSwap : MonoBehaviour
     private float blueTrans;
     private float redSpeed;
     private float blueSpeed;
+    public Sprite greyGem;
+    public Sprite blueGem;
+    public Sprite redGem;
     public bool isRedActive = true;
     public GameObject[] bgs;
     private AudioManager audioManager;
@@ -30,17 +33,25 @@ public class PlayerSwap : MonoBehaviour
         blueMoveItems = GameObject.FindGameObjectsWithTag("BlueMove");
         bgs = GameObject.FindGameObjectsWithTag("Background");
 
+        //update before first frame
+        UpdateColours();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.LeftShift))
+        if (Input.GetKeyDown(KeyCode.LeftShift) || Input.GetKeyDown(KeyCode.RightShift))
         {
             audioManager.Play("swap");
 
             isRedActive = !isRedActive;
-            if (isRedActive)
+            UpdateColours();
+
+        }        
+    }
+
+    void UpdateColours(){
+        if (isRedActive)
             {
                 redTrans = 1f;
                 blueTrans = .4f;
@@ -82,50 +93,40 @@ public class PlayerSwap : MonoBehaviour
             for (int i = 0; i < redMoveItems.Length; i++)
             {
                 //redItems[i].SetActive(isRedActive);
-                //redSprite = redMoveItems[i].GetComponent<SpriteRenderer>();
+                redSprite = redMoveItems[i].GetComponent<SpriteRenderer>();
                 var redScript = redMoveItems[i].GetComponent<MovingPlatform>();
                 //redSprite.color = new Color(1f, 1f, 1f, redTrans);
                 if (isRedActive)
                 {
                     redScript.isActive = true;
+                    redSprite.sprite = redGem;
                 }
                 else if (!isRedActive)
                 {
                     redScript.StopAllCoroutines();
                     redScript.isActive = false;
+                    //redSprite.sprite = greyGem;
                 }
 
             }
             for (int i = 0; i < blueMoveItems.Length; i++)
             {
                 //blueItems[i].SetActive(!isRedActive);
-                //blueSprite = blueMoveItems[i].GetComponent<SpriteRenderer>();
+                blueSprite = blueMoveItems[i].GetComponent<SpriteRenderer>();
                 var blueScript = blueMoveItems[i].GetComponent<MovingPlatform>();
                 //blueSprite.color = new Color(1f, 1f, 1f, blueTrans);
                 if(isRedActive)
                 {
                     blueScript.isActive = false;
                     blueScript.StopAllCoroutines();
+                    //blueSprite.sprite = greyGem;
                 }
                 else if(!isRedActive)
                 {
 
                     blueScript.isActive = true;
+                    blueSprite.sprite = blueGem;
                 }
             }
-
-        }
-
-        for (int i = 0; i < bgs.Length; i++){
-            if(isRedActive){
-                //change colour of bg to red
-                    bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.6981132f, 0.4504806f, 0.4504806f, 1);
-            }
-            else {
-                //change colour of bg to blue
-                    bgs[i].GetComponent<SpriteRenderer>().color = new Color(0.4509804f, 0.5764555f, 0.6980392f, 1);
-            }
-        }
-        
     }
 }

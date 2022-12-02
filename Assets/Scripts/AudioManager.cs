@@ -1,6 +1,7 @@
 using System;
 using UnityEngine.Audio;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class AudioManager : MonoBehaviour
 {
@@ -29,8 +30,15 @@ public class AudioManager : MonoBehaviour
         DontDestroyOnLoad(gameObject);
     }
 
-    void Start() {
-        Play("bgm");    //automatically plays bgm
+    void Update() {
+        if ((SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Ending") && !IsPlaying("titleTheme")){
+            Stop("bgm");
+            Play("titleTheme"); //plays title theme on main menu
+        }
+        else if (!(SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Ending") && !IsPlaying("bgm")){
+            Stop("titleTheme");
+            Play("bgm");    //automatically plays bgm in levels
+        }
     }
 
     public void Play (string name){

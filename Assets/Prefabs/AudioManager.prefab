@@ -45,6 +45,16 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   sounds:
+  - name: titleTheme
+    clip: {fileID: 8300000, guid: 90c92a182135fda46a99e2738eaadc60, type: 3}
+    volume: 1
+    loop: 1
+    source: {fileID: 0}
+  - name: bgm
+    clip: {fileID: 8300000, guid: fde80dc16b213204e89a9d80e41b3855, type: 3}
+    volume: 1
+    loop: 1
+    source: {fileID: 0}
   - name: death
     clip: {fileID: 8300000, guid: 85823ff92c212e04096f895b8ed0ab7d, type: 3}
     volume: 0.7
@@ -59,11 +69,6 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: 058b70948836afd48bb760cc7c482be4, type: 3}
     volume: 0.5
     loop: 0
-    source: {fileID: 0}
-  - name: bgm
-    clip: {fileID: 8300000, guid: fde80dc16b213204e89a9d80e41b3855, type: 3}
-    volume: 0.87
-    loop: 1
     source: {fileID: 0}
   - name: walkStone
     clip: {fileID: 8300000, guid: 01b17156e98b3254ebf9572f63366c61, type: 3}
@@ -83,5 +88,15 @@ MonoBehaviour:
   - name: jumpGem
     clip: {fileID: 8300000, guid: 8a4ebfc3e4c78134693653ce70f06d93, type: 3}
     volume: 0.5
+    loop: 0
+    source: {fileID: 0}
+  - name: checkpoint
+    clip: {fileID: 8300000, guid: 3c6ff0a258ba4504fb64da4e84babee8, type: 3}
+    volume: 1
+    loop: 0
+    source: {fileID: 0}
+  - name: finish
+    clip: {fileID: 8300000, guid: cba79a213991f9b4887c42459ed323c3, type: 3}
+    volume: 1
     loop: 0
     source: {fileID: 0}

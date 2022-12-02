@@ -21,6 +21,8 @@ public class PlayerMovement : MonoBehaviour
     public float deadTime;
     public float deadLength = 0.5f;
 
+    public int deathCount = 0;
+
     private Vector3 respawnPoint;
 
     private AudioManager audioManager;
@@ -37,7 +39,6 @@ public class PlayerMovement : MonoBehaviour
 
         //inital spawn position
         respawnPoint = Character.transform.position;
-        levels = new string [] {"Level 1", "Level 2", "Level 3", "Level 4", "Level 5", "Level 6", "Level 7", "Level 8", "Level 9", "Level 10"};
     }
 
     // Update is called once per frame
@@ -78,33 +79,18 @@ public class PlayerMovement : MonoBehaviour
                 audioManager.Play("jumpStone");
             }
 
-            Character.velocity = new Vector2(0f, jumpForce) * Speed;
+            Character.velocity = new Vector2(0f, jumpForce);
             
         }
 
         if (!alive && Time.unscaledTime >= deadTime + deadLength){
 
             if(endOfLevel == true){ //on end of level
-
                 endOfLevel = false;
                 Time.timeScale = 1.0f;
 
-                //change levels (use an array?)
-                for (int i = 0; i < levels.Length; i ++){
-                    Debug.Log(i);
-                    if(SceneManager.GetActiveScene().name == levels[i]){
-
-                        Debug.Log("level checked"); 
-                        
-                        if (i + 1 == levels.Length){ //currently, if you beat all the levels, it resets to level 1
-                            SceneManager.LoadScene(levels[0]);
-                        }
-                        else { 
-                            SceneManager.LoadScene(levels[i + 1]); 
-                        }
-                        
-                    }
-                }
+                //change levels
+                SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex + 1);
             }
 
             else { //on death
@@ -115,10 +101,11 @@ public class PlayerMovement : MonoBehaviour
 
     private void FixedUpdate()
     {
-        Debug.DrawRay(transform.position + Vector3.right * boxCollider.size.x/2.5f, Vector2.down * 2, Color.yellow);   //one ray on the right side of the collider
-        Debug.DrawRay(transform.position + Vector3.left * boxCollider.size.x/2.5f, Vector2.down * 2, Color.yellow);    //other ray on left side
+        /*Debug.DrawRay(transform.position + Vector3.right * boxCollider.size.x/2.5f, Vector2.down * 2, Color.yellow);   //one ray on the right side of the collider
+        Debug.DrawRay(transform.position + Vector3.left * boxCollider.size.x/2.5f, Vector2.down * 2, Color.yellow);    //other ray on left side*/
         LayerMask ground = LayerMask.GetMask("Default");
         LayerMask gem = LayerMask.GetMask("Gem");
+        LayerMask movePlatform = LayerMask.GetMask("MovePlatform");
 
         RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, ground);
         RaycastHit2D hit2 = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, ground);
@@ -126,11 +113,15 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D hitGem = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, gem);
         RaycastHit2D hit2Gem = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, gem);
 
+        RaycastHit2D hitMove = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, movePlatform);
+        RaycastHit2D hit2Move = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, movePlatform);
+
         if (hit.collider != null || hit2.collider != null) {    //as long as one of the rays is touching the ground, then you can jump
             inAir = false;
             onGem = false;
         }
-        else if (hitGem.collider != null || hit2Gem.collider != null) { //if the rays are touching the gems
+        else if (hitGem.collider != null || hit2Gem.collider != null || 
+                 hitMove.collider != null || hit2Move.collider != null) { //if the rays are touching the gems/moving platforms
             inAir = false;
             onGem = true;
         }
@@ -143,6 +134,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //death
         if (col.gameObject.tag == "deathPlane") {
+            deathCount ++;
             audioManager.Play("death");
             Time.timeScale = 0.0f;
             deadTime = Time.unscaledTime;
@@ -151,19 +143,23 @@ public class PlayerMovement : MonoBehaviour
 
         //end of level
         if (col.gameObject.tag == "Finish"){
+            audioManager.Play("finish");
+            endOfLevel = true;
+            Animator princeAnimator = col.gameObject.GetComponent<Animator>();  //get animator of prince
+            princeAnimator.SetBool("End", endOfLevel);  //set End to true to trigger transition to end sprite
+
             Time.timeScale = 0.0f;
             deadTime = Time.unscaledTime;
-
-            endOfLevel = true;
             canControl = false;
             alive = false;
-
-            Debug.Log("this is the end"); 
         }
 
          if(col.gameObject.tag == "checkpoint"){
-            respawnPoint = col.transform.position;
-            col.GetComponent<SpriteRenderer>().color = new Color(0.9056604f, 0.9058824f, 0.4135279f, 1); //make checkpoint yellow
+            if (col.GetComponent<SpriteRenderer>().color != new Color(0.9056604f, 0.9058824f, 0.4135279f, 1)) { //if checkpoint has not been reached yet
+                audioManager.Play("checkpoint");
+                respawnPoint = col.transform.position;
+                col.GetComponent<SpriteRenderer>().color = new Color(0.9056604f, 0.9058824f, 0.4135279f, 1); //make checkpoint yellow
+            }
          }
     }
 

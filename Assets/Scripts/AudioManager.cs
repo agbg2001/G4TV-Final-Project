@@ -31,12 +31,19 @@ public class AudioManager : MonoBehaviour
     }
 
     void Update() {
-        if ((SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Ending") && !IsPlaying("titleTheme")){
+        if (SceneManager.GetActiveScene().name == "Menu" && !IsPlaying("titleTheme")){
             Stop("bgm");
+            Stop("ending");
             Play("titleTheme"); //plays title theme on main menu
+        }
+        else if (SceneManager.GetActiveScene().name == "Ending" && !IsPlaying("ending")) {
+            Stop("bgm");
+            Stop("titleTheme");
+            Play("ending");
         }
         else if (!(SceneManager.GetActiveScene().name == "Menu" || SceneManager.GetActiveScene().name == "Ending") && !IsPlaying("bgm")){
             Stop("titleTheme");
+            Stop("ending");
             Play("bgm");    //automatically plays bgm in levels
         }
     }

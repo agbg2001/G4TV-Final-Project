@@ -21,7 +21,7 @@ public class MovingPlatform : MonoBehaviour
 
     }
 
-    void Update()
+    void FixedUpdate()
     {
         if (isActive)
         {

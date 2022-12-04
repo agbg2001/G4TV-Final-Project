@@ -12,6 +12,7 @@ public class PlayerMovement : MonoBehaviour
     public float jumpForce = 0.5f;
     private bool inAir = false;
     private bool onGem = false;
+    private bool pressJump = false;
 
     public float h;
     
@@ -71,8 +72,10 @@ public class PlayerMovement : MonoBehaviour
         // jumping
         if(Input.GetKeyDown(KeyCode.Space) && !inAir && canControl){
             //Debug.Log("trying to jump"); 
-            
-            if (onGem) {
+
+
+
+            /*if (onGem) {
                 audioManager.Play("jumpGem");
             }
             else {
@@ -80,7 +83,8 @@ public class PlayerMovement : MonoBehaviour
             }
 
             Character.velocity = new Vector2(0f, jumpForce);
-            
+            */
+            pressJump = true;
         }
 
         if (!alive && Time.unscaledTime >= deadTime + deadLength){
@@ -113,8 +117,8 @@ public class PlayerMovement : MonoBehaviour
         RaycastHit2D hitGem = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, gem);
         RaycastHit2D hit2Gem = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, gem);
 
-        RaycastHit2D hitMove = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, movePlatform);
-        RaycastHit2D hit2Move = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.1f, movePlatform);
+        RaycastHit2D hitMove = Physics2D.Raycast(transform.position + Vector3.right * boxCollider.size.x/2.5f, -Vector2.up, 0.4f, movePlatform);
+        RaycastHit2D hit2Move = Physics2D.Raycast(transform.position + Vector3.left * boxCollider.size.x/2.5f, -Vector2.up, 0.4f, movePlatform);
 
         if (hit.collider != null || hit2.collider != null) {    //as long as one of the rays is touching the ground, then you can jump
             inAir = false;
@@ -127,6 +131,24 @@ public class PlayerMovement : MonoBehaviour
         }
          else { 
             inAir = true;
+        }
+
+        //jumping but in fixedupdate
+        if (pressJump)
+        {
+            //Debug.Log("trying to jump"); 
+            pressJump = false;
+            if (onGem)
+            {
+                audioManager.Play("jumpGem");
+            }
+            else
+            {
+                audioManager.Play("jumpStone");
+            }
+
+            Character.velocity = new Vector2(0f, jumpForce);
+
         }
     }
 

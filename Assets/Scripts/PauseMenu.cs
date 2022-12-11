@@ -8,7 +8,9 @@ using TMPro;
 public class PauseMenu : MonoBehaviour
 {
     public static bool isPaused = false;
-    public GameObject pauseUI;
+    public GameObject pauseMainUI;
+    public GameObject pauseLevelUI;
+    public GameObject pauseControlUI;
     public TMP_Text timerText;
     private float totalSeconds;
 
@@ -43,13 +45,17 @@ public class PauseMenu : MonoBehaviour
     }
 
     public void PauseGame (){
-        pauseUI.SetActive(true);
+        pauseMainUI.SetActive(true);
         Time.timeScale = 0f;
+        playerMovement.canControl = false;
         isPaused = true;
     }
     public void ResumeGame (){
         ButtonPressed();
-        pauseUI.SetActive(false);
+        pauseLevelUI.SetActive(false);
+        pauseControlUI.SetActive(false);
+        pauseMainUI.SetActive(false);
+        playerMovement.canControl = true;
     }
 
     public void MainMenu(){
